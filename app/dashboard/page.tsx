@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import { Bot, Building2, Clock, Dumbbell, Flame, Home, Play, Trophy, Zap } from 'lucide-react';
 import ExerciseDemo from '@/components/ExerciseDemo';
 import { dayKey, useHydrated, useStore } from '@/lib/store';
+import { useAuthEmail } from '@/lib/auth';
+import { isSupabaseConfigured } from '@/lib/supabase';
 import { FOCUS_SHORT, suggestedFocus } from '@/lib/ai-engine';
 import DurationPicker from '@/components/DurationPicker';
 import { computeTargets } from '@/lib/nutrition';
@@ -45,6 +47,7 @@ export default function DashboardPage() {
   const setProfile = useStore((s) => s.setProfile);
   const setPlace = useStore((s) => s.setPlace);
   const meals = useStore((s) => s.meals);
+  const email = useAuthEmail();
 
   const stats = useMemo(() => {
     const volumeByDay = new Map<string, number>();
@@ -112,11 +115,18 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-5">
-      <header>
+      <header className="flex items-start justify-between gap-3">
+        <div>
         <p className="text-xs font-semibold uppercase tracking-widest text-muted">{GOAL_LABEL[profile.goal]}{profile.sport !== 'aucun' ? ` · ${SPORT_LABEL[profile.sport]}` : ''}</p>
         <h1 className="font-display text-5xl font-extrabold uppercase leading-none">
           {profile.name ? `Salut ${profile.name}` : 'Salut'}
         </h1>
+</div>
+        {isSupabaseConfigured && email === null && (
+          <Link href="/login" className="btn-outline shrink-0 !px-3 !py-2 text-xs">
+            Se connecter
+          </Link>
+        )}
       </header>
 
       {/* Lieu */}

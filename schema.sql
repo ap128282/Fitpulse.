@@ -13,9 +13,14 @@ create table if not exists public.profiles (
   level text not null default 'intermediaire' check (level in ('debutant', 'intermediaire', 'avance')),
   weight_kg numeric(5,2),
   height_cm numeric(5,1),
-  default_duration int not null default 45 check (default_duration in (30, 45, 75)),
+  default_duration int not null default 45,
+  settings jsonb,
   created_at timestamptz not null default now()
 );
+
+-- Bases déjà créées avec une version précédente : ajoute la colonne du profil et retire l'ancienne contrainte de durée.
+alter table public.profiles add column if not exists settings jsonb;
+alter table public.profiles drop constraint if exists profiles_default_duration_check;
 
 -- Création automatique du profil à l'inscription
 create or replace function public.handle_new_user()

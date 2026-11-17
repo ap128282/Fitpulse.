@@ -71,3 +71,30 @@ export async function syncBodyWeight(date: string, weightKg: number): Promise<vo
     /* ignore */
   }
 }
+
+// ---------------------------------------------------------------------------
+// Profil : sauvegardé sur le compte pour être retrouvé sur un autre appareil
+// ---------------------------------------------------------------------------
+
+export async function pullProfile(): Promise<unknown | null> {
+  if (!supabase) return null;
+  try {
+    const { data: auth } = await supabase.auth.getUser();
+    if (!auth.user) return null;
+    const { data } = await supabase.from('profiles').select('settings').eq('id', auth.user.id).maybeSingle();
+    return data?.settings ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function pushProfile(profile: unknown): Promise<void> {
+  if (!supabase) return;
+  try {
+    const { data: auth } = await supabase.auth.getUser();
+    if (!auth.user) return;
+    await supabase.from('profiles').upsert({ id: auth.user.id, settings: profile }, { onConflict: 'id' });
+  } catch {
+    /* la sauvegarde est facultative */
+  }
+}

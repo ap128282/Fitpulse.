@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Barlow_Condensed, DM_Sans } from 'next/font/google';
 import './globals.css';
 import BottomNav from '@/components/BottomNav';
+import AuthSync from '@/components/AuthSync';
 import OnboardingGate from '@/components/OnboardingGate';
 import SWRegister from '@/components/SWRegister';
 
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="mx-auto min-h-screen w-full max-w-md px-4 pb-32 pt-6">{children}</main>
         <BottomNav />
         <OnboardingGate />
+        <AuthSync />
         <SWRegister />
       </body>
     </html>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, ArrowRight, Check, Info, Minus, Plus } from 'lucide-react';
 import DurationPicker from '@/components/DurationPicker';
@@ -193,6 +194,12 @@ export default function OnboardingPage() {
         {/* 1. Objectif */}
         {step === 0 && (
           <>
+            <p className="rounded-2xl border border-line bg-panel p-3 text-sm">
+              Tu as déjà un compte ?{' '}
+              <Link href="/login" className="font-bold text-royal-light underline">
+                Se connecter
+              </Link>
+            </p>
             <label className="block">
               <span className="mb-1 block text-xs font-semibold text-muted">Ton prénom (facultatif)</span>
               <input value={profile.name} onChange={(e) => setProfile({ name: e.target.value.slice(0, 40) })} className="field" placeholder="Comment t'appelles-tu ?" autoComplete="given-name" />
@@ -399,6 +406,16 @@ export default function OnboardingPage() {
                 </li>
               ))}
             </ul>
+
+            <div className="rounded-2xl border border-line bg-panel p-4">
+              <p className="font-bold">Garde ton profil sur tous tes appareils</p>
+              <p className="mt-1 text-xs text-muted">
+                Crée un compte gratuit (facultatif) : ton profil est sauvegardé et retrouvé si tu changes de téléphone.
+              </p>
+              <Link href="/login?mode=signup" className="btn-outline mt-3 w-full text-sm">
+                Créer un compte
+              </Link>
+            </div>
           </>
         )}
       </div>

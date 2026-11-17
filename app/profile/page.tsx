@@ -23,6 +23,11 @@ export default function ProfilePage() {
   const logout = async () => {
     await supabase?.auth.signOut();
     setEmail(null);
+    if (window.confirm("Effacer aussi les données enregistrées sur cet appareil (profil, séances, repas) ? Elles restent sur ton compte si tu t'es connecté.")) {
+      localStorage.removeItem('fitpulse-store-v1');
+      window.location.href = '/login';
+      return;
+    }
     router.push('/login');
   };
 

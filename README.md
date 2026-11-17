@@ -31,6 +31,12 @@ La clé reste côté serveur (`app/api/*`), jamais dans le navigateur.
 - Images d'exercices : free-exercise-db (domaine public) https://github.com/yuhonas/free-exercise-db
 - Produits et codes-barres : Open Food Facts (base libre) https://world.openfoodfacts.org
 
-## Supabase (facultatif)
+## Comptes (Supabase, gratuit)
 
-Exécute `schema.sql` dans le SQL Editor puis renseigne `NEXT_PUBLIC_SUPABASE_URL` et `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+1. Crée un projet sur supabase.com, puis exécute `schema.sql` dans le SQL Editor.
+2. Dans Vercel > Settings > Environment Variables, ajoute `NEXT_PUBLIC_SUPABASE_URL` et
+   `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (ou l'ancienne `NEXT_PUBLIC_SUPABASE_ANON_KEY`), puis redéploie.
+3. Dans Supabase > Authentication > URL Configuration : renseigne l'adresse du site (Site URL et Redirect URLs).
+
+Le profil est sauvegardé sur le compte et retrouvé à la connexion. Les séances et la courbe de poids sont envoyées au
+compte ; l'historique, le journal nutritionnel et les plans restent pour l'instant sur l'appareil.
